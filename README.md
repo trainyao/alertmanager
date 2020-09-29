@@ -404,3 +404,17 @@ Apache License 2.0, see [LICENSE](https://github.com/prometheus/alertmanager/blo
 [hub]: https://hub.docker.com/r/prom/alertmanager/
 [circleci]: https://circleci.com/gh/prometheus/alertmanager
 [quay]: https://quay.io/repository/prometheus/alertmanager
+
+报警归档, 回查
+可以保存的信息:
+- 报警名
+- 报警信息, 分组信息
+- 出现开始结束时间
+- 
+按业务组区分, 通知对应人, @人
+兼容多种报警方式
+- zabbix
+- ganglia
+- 保安
+- prome
+

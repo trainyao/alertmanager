@@ -1,7 +1,5 @@
 FROM node:6.10
 
-RUN npm install -g \
+RUN npm install -g --registry https://registry.npm.taobao.org/ \
   elm@0.19.0 \
-  elm-format@0.8.0 \
-  elm-test@0.19.0-beta5 \
   uglify-js@3.4.7

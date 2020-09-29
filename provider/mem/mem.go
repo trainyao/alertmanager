@@ -57,6 +57,7 @@ func NewAlerts(ctx context.Context, m types.Marker, intervalGC time.Duration, l 
 		logger:    log.With(l, "component", "provider"),
 	}
 	a.alerts.SetGCCallback(func(alerts []*types.Alert) {
+		level.Warn(a.logger).Log("msg", "gcing")
 		for _, alert := range alerts {
 			// As we don't persist alerts, we no longer consider them after
 			// they are resolved. Alerts waiting for resolved notifications are

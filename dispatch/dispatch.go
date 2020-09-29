@@ -277,6 +277,7 @@ type notifyFunc func(context.Context, ...*types.Alert) bool
 // and inserts it.
 func (d *Dispatcher) processAlert(alert *types.Alert, route *Route) {
 	groupLabels := getGroupLabels(alert, route)
+	level.Error(d.logger).Log("11111111111111111", groupLabels)
 
 	fp := groupLabels.Fingerprint()
 

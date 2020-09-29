@@ -9,7 +9,7 @@ type alias Tab =
 
 alertsTab : Tab
 alertsTab =
-    { link = "#/alerts", name = "Alerts" }
+    { link = "#/alerts", name = "Alertings" }
 
 
 silencesTab : Tab

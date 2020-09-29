@@ -16,6 +16,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/prometheus/alertmanager/provider/mysqlpersist"
 	"net"
 	"net/http"
 	"net/url"
@@ -367,6 +368,7 @@ func run() int {
 
 	var (
 		inhibitor *inhibit.Inhibitor
+		persister *mysqlpersist.MysqlPersistProvider
 		tmpl      *template.Template
 	)
 
@@ -415,6 +417,7 @@ func run() int {
 
 		inhibitor = inhibit.NewInhibitor(alerts, conf.InhibitRules, marker, logger)
 		silencer := silence.NewSilencer(silences, marker, logger)
+		persister = mysqlpersist.NewMysqlPersistProvider(alerts, "", logger)
 		pipeline := pipelineBuilder.New(
 			receivers,
 			waitFunc,
@@ -449,6 +452,7 @@ func run() int {
 
 		go disp.Run()
 		go inhibitor.Run()
+		go persister.Run()
 
 		return nil
 	})

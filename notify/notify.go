@@ -16,6 +16,7 @@ package notify
 import (
 	"context"
 	"fmt"
+	"reflect"
 	"sort"
 	"sync"
 	"time"
@@ -329,6 +330,9 @@ func (rs RoutingStage) Exec(ctx context.Context, l log.Logger, alerts ...*types.
 		return ctx, nil, errors.New("stage for receiver missing")
 	}
 
+	v := reflect.ValueOf(s)
+	log.With(l).Log("in routing", receiver, "stage", v.Type().String())
+
 	return s.Exec(ctx, l, alerts...)
 }
 
@@ -343,6 +347,7 @@ func (ms MultiStage) Exec(ctx context.Context, l log.Logger, alerts ...*types.Al
 			return ctx, nil, nil
 		}
 
+		log.With(l).Log("in multi stage")
 		ctx, alerts, err = s.Exec(ctx, l, alerts...)
 		if err != nil {
 			return ctx, nil, err
@@ -611,6 +616,7 @@ func NewRetryStage(i Integration, groupName string, metrics *metrics) *RetryStag
 
 // Exec implements the Stage interface.
 func (r RetryStage) Exec(ctx context.Context, l log.Logger, alerts ...*types.Alert) (context.Context, []*types.Alert, error) {
+	log.With(l, "!!!!!!!!!!!!!!!!")
 	var sent []*types.Alert
 
 	// If we shouldn't send notifications for resolved alerts, but there are only

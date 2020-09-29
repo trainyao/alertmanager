@@ -1,7 +1,7 @@
 # Use `=` instead of `:=` expanding variable lazely, not at beginning. Needed as
 # elm files change during execution.
 ELM_FILES = $(shell find src -iname *.elm)
-DOCKER_IMG := elm-env
+DOCKER_IMG := elm-env2
 DOCKER_RUN_CURRENT_USER := docker run --user=$(shell id -u $(USER)):$(shell id -g $(USER))
 DOCKER_CMD := $(DOCKER_RUN_CURRENT_USER) --rm -t -v $(PWD):/app -w /app -e "ELM_HOME=/app" $(DOCKER_IMG)
 # macOS requires mktemp template to be at the end of the filename.
@@ -21,7 +21,7 @@ all: script.js test
 elm-env:
 	@(if [ "$(NO_DOCKER)" != "true" ] ; then \
 		echo ">> building elm-env docker image"; \
-		docker build -t $(DOCKER_IMG) ../. > /dev/null; \
+		# docker build -t $(DOCKER_IMG) ../. > /dev/null; \
 	fi; )
 
 format: elm-env $(ELM_FILES)
@@ -41,7 +41,7 @@ endif
 dev-server:
 	elm reactor
 
-script.js: src/Data elm-env format $(ELM_FILES)
+script.js: src/Data elm-env $(ELM_FILES)
 	@echo ">> building script.js"
 	@$(DOCKER_CMD) rm -rf elm-stuff
 	@$(DOCKER_CMD) elm make src/Main.elm --optimize --output $(TEMPFILE_JS)
